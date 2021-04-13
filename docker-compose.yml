@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  web:
+    container_name: silverstripe-sentry-web
+    image: brettt89/silverstripe-web:7.4
+    working_dir: /var/www/html
+    restart: unless-stopped
+    depends_on:
+      - db
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 9965:80
+  db:
+    container_name: silverstripe-sentry-db
+    image: mysql:5
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: silverstripe
+
+volumes:
+  db-data:
